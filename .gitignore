@@ -1,0 +1,13 @@
+# os / software genereted files
+.DS_Store
+.vscode
+dwsync.xml
+thumbs.db
+
+# backup files
+*.bak*
+
+# important files to track
+!.gitignore
+!.ht*
+!web.config
