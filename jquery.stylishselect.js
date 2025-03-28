@@ -56,6 +56,10 @@
 				api.refresh($elem);
 				$elem.on('change', function() {
 					api.refresh($elem);
+				}).closest('form').on('reset', function() {
+					setTimeout(function() {
+						api.refresh($elem);
+					});
 				});
 			},
 			refresh: function($elem) {
