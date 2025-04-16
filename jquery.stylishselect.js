@@ -1,6 +1,6 @@
 /**
  * jQuery Stylish Select
- * @version 0.1.2
+ * @version 0.1.2.2
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -72,7 +72,7 @@
 					var label = $elem.find('option[value="' + $elem.val() + '"]').text().trim();
 				}
 				$elem.siblings('.' + config.placeholderClass).attr({
-					placeholder: $elem.find('option[value=""]').text()
+					placeholder: $elem.find('option[value=""]').text().trim()
 				}).val(label);
 			}
 		};

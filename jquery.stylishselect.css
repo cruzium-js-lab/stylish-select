@@ -1,6 +1,6 @@
 /**
  * jQuery Stylish Select
- * @version 0.1.2
+ * @version 0.1.2.2
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https: //opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -40,7 +40,7 @@
 	background-color: var(--stylish-select-disabled-bg);
 }
 .stylish-select-hidden:focus + .stylish-select-placeholder {
-	box-shadow: 0 0 0 .2rem var(--bs-primary-shadow);
+	outline: var(--aria-outline, 2px solid rgba(var(--bs-primary-rgb), 0.5));
 }
 
 .stylish-select-arrow,
@@ -72,8 +72,8 @@
 	transform: rotate(45deg);
 }
 .stylish-select-caret:before {
-	top: calc(50% - var(--stylish-select-caret-color) * 0.25);
-	border: calc(var(--stylish-select-caret-color) * 0.5) solid transparent;
+	top: calc(50% - var(--stylish-select-caret-size) * 0.25);
+	border: calc(var(--stylish-select-caret-size) * 0.5) solid transparent;
 	border-top-color: var(--stylish-select-caret-color);
 	border-bottom-width: 0;
 }
