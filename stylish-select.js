@@ -1,5 +1,5 @@
 /**
- * jQuery wrapper for Stylish Select
+ * Stylish Select
  * @version 0.1.3
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
@@ -79,18 +79,3 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 
 	this.init();
 };
-
-(function($) {
-	$.fn.stylishSelect = function(args) {
-		$(this).each(function() {
-			args = args || 'init';
-			if (args.constructor == Object) {
-				$(this).data('stylish-select', new StylishSelect(this, args));
-			} else {
-				var instance = $(this).data('stylish-select') || new StylishSelect(this);
-				instance[args] !== undefined && instance[args]();
-			}
-		});
-		return(this);
-	};
-})(jQuery);
