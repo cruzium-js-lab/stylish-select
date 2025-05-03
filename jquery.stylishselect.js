@@ -1,6 +1,6 @@
 /**
- * jQuery Stylish Select
- * @version 0.1.2.2
+ * Stylish Select
+ * @version 0.1.3
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -8,85 +8,89 @@
 
 'use strict';
 
+window.StylishSelect = window.StylishSelect || function(elem, opts) {
+	var settings = {
+		arrowClass: 'stylish-select-caret',
+		hiddenClass: 'stylish-select-hidden',
+		placeholderClass: 'stylish-select-placeholder',
+		selectClass: null,
+		wrapperClass: 'stylish-select'
+	};
+	Object.assign(settings, opts);
+
+	this.init = function() {
+		if (elem.classList.contains(settings.hiddenClass) || elem.hasAttribute('multiple')) {
+			return;
+		}
+		
+		// hide the select dropdown
+		elem.classList.add(settings.hiddenClass, settings.selectClass);
+		elem.setAttribute('aria-hidden', 'hidden');
+
+		// wrapper for select dropdown and other elements
+		var wrapper = document.createElement('div');
+		wrapper.classList.add(settings.wrapperClass);
+		elem.parentNode.insertBefore(wrapper, elem);
+		wrapper.appendChild(elem);
+
+		// placeholder to display the selected value
+		var placeholder = document.createElement('input');
+		placeholder.setAttribute('type', 'text');
+		placeholder.setAttribute('aria-label', elem.getAttribute('aria-label'));
+		placeholder.setAttribute('aria-labelledby', elem.getAttribute('aria-labelledby'));
+		placeholder.required = elem.required;
+		placeholder.readonly = placeholder.disabled = true;
+		placeholder.classList.add('form-control', settings.placeholderClass);
+		wrapper.appendChild(placeholder);
+		if (elem.classList.contains('form-control-sm')) {
+			placeholder.classList.add('form-control-sm');
+		}
+
+		// dropdown arrow
+		var arrow = document.createElement('span');
+		arrow.classList.add(settings.arrowClass);
+		wrapper.appendChild(arrow);
+
+		// update placeholder and bind event
+		this.refresh();
+		elem.addEventListener('change', function(e) {
+			this.refresh();
+		}.bind(this));
+		elem.closest('form').addEventListener('reset', function(e) {
+			setTimeout(function() {
+				this.refresh();
+			}.bind(this));
+		}.bind(this));
+	};
+
+	this.refresh = function() {
+		if (!elem.classList.contains(settings.hiddenClass)) {
+			this.init();
+		}
+		if (elem.value == '') {
+			var label = '';
+		} else {
+			var label = elem.querySelector('option[value="' + elem.value + '"]').textContent.trim();
+		}
+		var placeholder = elem.parentNode.querySelector('.' + settings.placeholderClass);
+		placeholder.placeholder = elem.querySelector('option[value=""]').textContent.trim();
+		placeholder.value = label;
+	};
+
+	this.init();
+};
+
 (function($) {
-	$.fn.stylishSelect = function(opts) {
-		var config = {
-			arrowClass: 'stylish-select-caret',
-			hiddenClass: 'stylish-select-hidden',
-			placeholderClass: 'stylish-select-placeholder',
-			selectClass: null,
-			wrapperClass: 'stylish-select'
-		};
-
-		var api = {
-			init: function($elem) {
-				if ($elem.hasClass(config.hiddenClass) || $elem.is('[multiple]')) {
-					return;
-				}
-
-				// hide the select dropdown
-				$elem.addClass(config.hiddenClass).addClass(config.selectClass).attr({
-					'aria-hidden': 'hidden'
-				});
-
-				// wrapper for select dropdown and other elements
-				var $wrapper = $(document.createElement('div')).addClass(config.wrapperClass).insertAfter($elem);
-
-				// placeholder to display the selected value
-				var $placeholder = $(document.createElement('input')).attr({
-					type: 'text',
-					name: $elem.attr('name'),
-					placeholder: $elem.find('option[value=""]').text().trim(),
-					'aria-label': $elem.attr('aria-label'),
-					'aria-labelledby': $elem.attr('aria-labelledby')
-				}).prop({
-					required: $elem.prop('required'),
-					readonly: true,
-					disabled: true
-				}).addClass('form-control ' + config.placeholderClass).appendTo($wrapper);
-				if ($elem.hasClass('form-control-sm')) {
-					$placeholder.addClass('form-control-sm');
-				}
-
-				// dropdown arrow
-				$(document.createElement('span')).addClass(config.arrowClass).appendTo($wrapper);
-
-				// update placeholder and bind event
-				$elem.prependTo($wrapper);
-				api.refresh($elem);
-				$elem.on('change', function() {
-					api.refresh($elem);
-				}).closest('form').on('reset', function() {
-					setTimeout(function() {
-						api.refresh($elem);
-					});
-				});
-			},
-			refresh: function($elem) {
-				if (!$elem.hasClass(config.hiddenClass)) {
-					api.init($elem);
-				}
-				if ($elem.val() == '') {
-					var label = '';
-				} else {
-					var label = $elem.find('option[value="' + $elem.val() + '"]').text().trim();
-				}
-				$elem.siblings('.' + config.placeholderClass).attr({
-					placeholder: $elem.find('option[value=""]').text().trim()
-				}).val(label);
-			}
-		};
-
+	$.fn.stylishSelect = function(args) {
 		$(this).each(function() {
-			opts = opts || 'init';
-			if (opts.constructor == Object) {
-				$.extend(true, config, opts);
-				api.init($(this));
-			} else if (api[opts] !== undefined) {
-				api[opts]($(this));
+			args = args || 'init';
+			if (args.constructor == Object) {
+				$(this).data('stylish-select', new StylishSelect(this, args));
+			} else {
+				var instance = $(this).data('stylish-select') || new StylishSelect(this);
+				instance[args] !== undefined && instance[args]();
 			}
 		});
-
 		return(this);
 	};
 })(jQuery);
