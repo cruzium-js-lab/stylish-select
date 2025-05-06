@@ -1,6 +1,6 @@
 /**
  * jQuery wrapper for Stylish Select
- * @version 0.1.3
+ * @version 0.1.4
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -73,8 +73,10 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 			var label = elem.querySelector('option[value="' + elem.value + '"]').textContent.trim();
 		}
 		var placeholder = elem.parentNode.querySelector('.' + settings.placeholderClass);
-		placeholder.placeholder = elem.querySelector('option[value=""]').textContent.trim();
 		placeholder.value = label;
+		if (elem.querySelector('option[value=""]')) {
+			placeholder.placeholder = elem.querySelector('option[value=""]').textContent.trim();
+		}
 	};
 
 	this.init();
@@ -85,11 +87,12 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		$(this).each(function() {
 			args = args || 'init';
 			if (args.constructor == Object) {
-				$(this).data('stylish-select', new StylishSelect(this, args));
+				var instance = new StylishSelect(this, args);
 			} else {
 				var instance = $(this).data('stylish-select') || new StylishSelect(this);
 				instance[args] !== undefined && instance[args]();
 			}
+			$(this).data('stylish-select', instance);
 		});
 		return(this);
 	};
