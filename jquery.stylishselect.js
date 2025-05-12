@@ -1,6 +1,6 @@
 /**
  * jQuery wrapper for Stylish Select
- * @version 0.1.4
+ * @version 0.1.5
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -13,7 +13,7 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		arrowClass: 'stylish-select-caret',
 		hiddenClass: 'stylish-select-hidden',
 		placeholderClass: 'stylish-select-placeholder',
-		selectClass: null,
+		selectClass: undefined,
 		wrapperClass: 'stylish-select'
 	};
 	Object.assign(settings, opts);
@@ -56,11 +56,18 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		elem.addEventListener('change', function(e) {
 			this.refresh();
 		}.bind(this));
-		elem.closest('form').addEventListener('reset', function(e) {
-			setTimeout(function() {
-				this.refresh();
+		if (elem.getAttribute('form')) {
+			var form = document.getElementById(elem.getAttribute('form'));
+		} else {
+			var form = elem.closest('form');
+		}
+		if (form) {
+			form.addEventListener('reset', function(e) {
+				setTimeout(function() {
+					this.refresh();
+				}.bind(this));
 			}.bind(this));
-		}.bind(this));
+		}
 	};
 
 	this.refresh = function() {
