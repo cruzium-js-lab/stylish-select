@@ -1,6 +1,6 @@
 /**
  * jQuery wrapper for Stylish Select
- * @version 0.1.5
+ * @version 0.1.6
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -18,13 +18,18 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 	};
 	Object.assign(settings, opts);
 
+	var cachedValue;
+
 	this.init = function() {
 		if (elem.tagName.toLowerCase() != 'select' || elem.hasAttribute('multiple') || elem.classList.contains(settings.hiddenClass)) {
 			return;
 		}
 		
 		// hide the select dropdown
-		elem.classList.add(settings.hiddenClass, settings.selectClass);
+		elem.classList.add(settings.hiddenClass);
+		if (settings.selectClass) {
+			elem.classList.add(settings.selectClass);
+		}
 		elem.setAttribute('aria-hidden', 'hidden');
 
 		// wrapper for select dropdown and other elements
@@ -36,15 +41,19 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		// placeholder to display the selected value
 		var placeholder = document.createElement('input');
 		placeholder.setAttribute('type', 'text');
-		placeholder.setAttribute('aria-label', elem.getAttribute('aria-label'));
-		placeholder.setAttribute('aria-labelledby', elem.getAttribute('aria-labelledby'));
 		placeholder.required = elem.required;
 		placeholder.readonly = placeholder.disabled = true;
 		placeholder.classList.add('form-control', settings.placeholderClass);
-		wrapper.appendChild(placeholder);
 		if (elem.classList.contains('form-control-sm')) {
 			placeholder.classList.add('form-control-sm');
 		}
+		if (elem.getAttribute('aria-label')) {
+			placeholder.setAttribute('aria-label', elem.getAttribute('aria-label'));
+		}
+		if (elem.getAttribute('aria-labelledby')) {
+			placeholder.setAttribute('aria-labelledby', elem.getAttribute('aria-labelledby'));
+		}
+		wrapper.appendChild(placeholder);
 
 		// dropdown arrow
 		var arrow = document.createElement('span');
@@ -68,6 +77,21 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 				}.bind(this));
 			}.bind(this));
 		}
+		if (window.MutationObserver) {
+			new MutationObserver(function(mutations, observer) {
+				if (elem.querySelector('option[value="' + cachedValue + '"]')) {
+					elem.value = cachedValue;
+				} else {
+					elem.selectedIndex = 0;
+					this.refresh();
+				}
+			}.bind(this)).observe(elem, {
+				childList: true
+			});
+		}
+
+		// assign this to the select dropdown
+		elem.stylishSelect = this;
 	};
 
 	this.refresh = function() {
@@ -84,6 +108,7 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		if (elem.querySelector('option[value=""]')) {
 			placeholder.placeholder = elem.querySelector('option[value=""]').textContent.trim();
 		}
+		cachedValue = elem.value;
 	};
 
 	this.init();
@@ -96,7 +121,7 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 			if (args.constructor == Object) {
 				var instance = new StylishSelect(this, args);
 			} else {
-				var instance = $(this).data('stylish-select') || new StylishSelect(this);
+				var instance = this.stylishSelect || new StylishSelect(this);
 				instance[args] !== undefined && instance[args]();
 			}
 			$(this).data('stylish-select', instance);
