@@ -1,6 +1,6 @@
 /**
  * jQuery wrapper for Stylish Select
- * @version 0.1.6.1
+ * @version 0.1.6.2
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
@@ -30,7 +30,6 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		if (settings.selectClass) {
 			elem.classList.add(settings.selectClass);
 		}
-		elem.setAttribute('aria-hidden', 'hidden');
 
 		// wrapper for select dropdown and other elements
 		var wrapper = document.createElement('div');
@@ -43,15 +42,11 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 		placeholder.setAttribute('type', 'text');
 		placeholder.required = elem.required;
 		placeholder.readonly = placeholder.disabled = true;
+		placeholder.autocomplete = 'off';
 		placeholder.classList.add('form-control', settings.placeholderClass);
+		placeholder.setAttribute('aria-hidden', 'hidden');
 		if (elem.classList.contains('form-control-sm')) {
 			placeholder.classList.add('form-control-sm');
-		}
-		if (elem.getAttribute('aria-label')) {
-			placeholder.setAttribute('aria-label', elem.getAttribute('aria-label'));
-		}
-		if (elem.getAttribute('aria-labelledby')) {
-			placeholder.setAttribute('aria-labelledby', elem.getAttribute('aria-labelledby'));
 		}
 		wrapper.appendChild(placeholder);
 
@@ -122,7 +117,7 @@ window.StylishSelect = window.StylishSelect || function(elem, opts) {
 				this.stylishSelect = new StylishSelect(this, args);
 			} else {
 				this.stylishSelect = this.stylishSelect || new StylishSelect(this);
-				this.stylishSelect[args] !== undefined && instance[args]();
+				this.stylishSelect[args] !== undefined && this.stylishSelect[args]();
 			}
 		}));
 	};
