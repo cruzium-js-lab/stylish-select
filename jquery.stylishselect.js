@@ -1,6 +1,6 @@
 /**
  * jQuery wrapper for Stylish Select
- * @version 0.1.6.2
+ * @version 0.1.6.3
  * @author Tony Leung <tony.leung@cruzium.com>
  * @copyright Copyright (c) 2025 Cruzium Digital
  * @license https://opensource.org/license/gpl-3-0/ GPL-3.0-only
