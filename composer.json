@@ -1,0 +1,17 @@
+
+{
+	"name": "cruzium-lab/stylish-select",
+	"description": "Make select dropdowns stylish with Stylish Select",
+	"type": "library",
+	"license": "GPL-3.0-only",
+	"authors": [
+		{
+			"name": "Tony Leung",
+			"email": "tony.leung@cruzium.com"
+		}
+	],
+	"require": {},
+	"suggest": {
+		"npm-asset/jquery": "^1.12.4 || ^3.6.4"
+	}
+}
