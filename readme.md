@@ -40,67 +40,19 @@ $('#foo').stylishSelect();
 
 ## Options
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Type</th>
-			<th>Default</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>arrowClass</td>
-			<td>string</td>
-			<td>'stylish-select-caret'</td>
-			<td>The plugin ships with classes `stylish-select-arrow` and `stylish-select-caret` for a choice of arrow and caret respectively.</td>
-		</tr>
-		<tr>
-			<td>hiddenClass</td>
-			<td>string</td>
-			<td>'stylish-select-hidden'</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>placeholderClass</td>
-			<td>string</td>
-			<td>'stylish-select-placeholder'</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>selectClass</td>
-			<td>string</td>
-			<td>undefined</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>wrapperClass</td>
-			<td>string</td>
-			<td>'stylish-select'</td>
-			<td></td>
-		</tr>
-	</tbody>
-</table>
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| arrowClass | *string* | `'stylish-select-caret'` | The plugin ships with classes `stylish-select-arrow` and `stylish-select-caret` for a choice of arrow and caret respectively. |
+| hiddenClass | *string* | `'stylish-select-hidden'` |  |
+| placeholderClass | *string* | `'stylish-select-placeholder'` |  |
+| selectClass | *string* | `undefined` |  |
+| wrapperClass | *string* | `'stylish-select'` |  |
 
 ## Methods
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Return</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>refresh</td>
-			<td>Refresh the placeholder element to reflect the latest value.</td>
-			<td>void</td>
-		</tr>
-	</tbody>
-</table>
+### `refresh()`: *void*
+
+Refresh the placeholder element to reflect the latest value.
 
 ## Limitations
 
