@@ -59,3 +59,7 @@ Refresh the placeholder element to reflect the latest value.
 
 1. In order to make the plugin works correctly, each `<option>` **must** contain a `value` attribute.
 2. Multiple select (i.e. `<select multiple>`) is currently not supported.
+
+## Support This Project
+
+[!["Buy Me a Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://buymeacoffee.com/cruziumdigital)
