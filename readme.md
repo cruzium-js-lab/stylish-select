@@ -4,6 +4,10 @@
 
 This plugin requires no dependencies unless opting for [jQuery](https://jquery.com) syntax.
 
+Framework-specific wrappers are available:
+- For [Angular JS](https://github.com/cruzium-lab/angular-stylishselect)
+- For [Alpine.js](https://github.com/cruzium-lab/alpine-stylishselect)
+
 ## Installation
 
 ```html
