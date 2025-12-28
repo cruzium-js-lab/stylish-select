@@ -31,12 +31,12 @@ In short, just use it like a normal select dropdown.
 
 *Vanilla JS*
 ```javascript
-var instance = new StylishSelect(document.getElementById('foo'));
+var instance = new StylishSelect(document.getElementById('foo'), options);
 ```
 
 *jQuery*
 ```javascript
-$('#foo').stylishSelect();
+$('#foo').stylishSelect(options);
 ```
 
 ## Options
